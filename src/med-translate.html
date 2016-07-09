@@ -1,0 +1,121 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<script scr="../bower_components/webcomponentsjs/webcomponents.js"></script>
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-input/paper-textarea.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html" >
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html" >
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<dom-module id="med-translate">
+<template>
+
+<style is="custom-style" include="iron-flex iron-positioning iron-flex-alignment">
+    #cards {
+       overflow: auto;
+       padding:8px 10px 8px 8px;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+    }
+
+    paper-card {
+      width: 100% ;
+      margin:8px auto;
+      flex: 0 0 auto;
+    }
+
+    paper-card [autofocus] {
+      color: #ff9c33;
+    }
+
+    paper-button {
+      font-size: 14px;
+    }
+    
+    .card-content{
+      padding: 0px 12px 0px 12px;
+    }
+
+
+</style>
+
+<iron-ajax auto
+          url="https://www.googleapis.com/language/translate/v2"
+          params='{"q":"Hello World", "key": "AIzaSyDFVVnYHDCDKTYXUVZp8QaB7nfaYhfJv3I", "source": "en", "target": "de"}'
+          handle-as="json"
+          last-response="{{GoogleResponse}}"></iron-ajax>
+
+ <iron-ajax auto
+          method=GET
+          url="https://api-platform.systran.net/translation/text/translate"
+          params='{"input":"Hello World", "source": "en", "target": "de", "withSource":"false", "withAnnotations":"false","backTranslation":"false","encoding":"utf-8", "key": "6dcdd53e-0c87-4596-9abd-e1425a60260b"}'
+          handle-as="json"
+          last-response="{{SystranResponse}}"></iron-ajax> 
+<!-- 
+  
+  Iron request needed
+ 
+ <iron-ajax auto
+          url="https://datamarket.accesscontrol.windows.net/v2/OAuth2-13/"
+          params='{"grant_type":"client_credentials", "client_id": "Medtalk7", "client_secret": "Mp1swc02VBkxBVuA32tqAPj0psn8ZdZGgH0", "scope":"http://api.microsofttranslator.com"}'
+          handle-as="json"
+          last-response="{{MStokenResponse}}"></iron-ajax> 
+-->
+<div id=cards>
+<paper-card >
+
+<div class="card-content">
+
+   <paper-textarea label="Enter Text For Translation"></paper-textarea>
+   <paper-icon-button icon="add" title="Translate" ></paper-icon-button>
+
+</div>
+</paper-card>
+
+<paper-card heading="Google">
+  <div class="card-content">
+        <template is="dom-repeat" items="[[GoogleResponse.data.translations]]">
+            <p>[[item.translatedText]]</p>
+        </template>
+     </div>
+
+</paper-card>
+
+<paper-card heading="Systran">
+  <div class="card-content">
+        <template is="dom-repeat" items="[[SystranResponse.outputs]]">
+            <p>[[item.output]]</p>
+        </template>
+     </div>
+
+</paper-card>
+
+
+</div>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'med-translate'
+
+    });
+
+    document.querySelector('#cards').addEventListener('swipeable-card-swipe-away', function(e) {
+      e.target.parentNode.removeChild(e.target);
+    });
+
+  </script>
+
+</dom-module>

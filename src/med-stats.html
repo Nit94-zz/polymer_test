@@ -1,0 +1,117 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-cards/paper-card.html">
+<script src="../webcomponentsjs/webcomponents.js"></script>
+
+<dom-module id="med-stats">
+
+<style>
+
+    #cards {
+      margin: 0 auto;
+      background: #dedede;
+      overflow: auto;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+    }
+
+    paper-card {
+      
+      margin: 8px auto;
+    }
+
+    paper-card [autofocus] {
+      color: #ff9c33;
+    }
+
+    paper-button {
+      font-size: 14px;
+    }
+
+    .fancy .round-placeholder {
+      display: inline-block;
+      height: 64px;
+      width: 64px;
+      border-radius: 50%;
+      background: #e9005f;
+      color: white;
+      line-height: 64px;
+      font-size: 30px;
+      text-align: center;
+    }
+
+    .fancy .title {
+      position: absolute;
+      top: 30px;
+      left: 100px;
+    }
+
+    .fancy img {
+      width: 100%;
+    }
+
+    .fancy .big {
+      font-size: 22px;
+      padding: 8px 0 16px;
+      color: #888;
+    }
+
+    .fancy .medium {
+      font-size: 16px;
+      padding-bottom: 8px;
+    }
+
+  </style>
+
+  <div layout vertical center id="cards">
+
+    <paper-card>
+      <div content>
+        <div>Cards are a convenient means of displaying content composed of different types of objects.
+          <br><br>
+          <b>Swipe me!</b>
+        </div>
+      </div>
+    </paper-card>
+
+    <paper-card heading="Not all cards need to be swipeable" disableSwipe></paper-card>
+
+  </div>
+
+  <script>
+
+        Polymer({
+
+      is: 'med-stats'
+
+    });
+
+    document.querySelector('#cards').addEventListener('swipeable-card-swipe-away', function(e) {
+      e.target.parentNode.removeChild(e.target);
+    });
+
+    function decreaseShadow() {
+      var card = document.querySelector('#shadow_demo');
+      var z = parseInt(card.getAttribute('z'));
+      z = z > 0 ? z - 1 : 0;
+      card.setAttribute('z', z);
+    }
+
+    function increaseShadow() {
+      var card = document.querySelector('#shadow_demo');
+      var z = parseInt(card.getAttribute('z'));
+      z = z < 5 ? z + 1 : 5;
+      card.setAttribute('z', z);
+    }
+  </script>
+
+</dom-module>
